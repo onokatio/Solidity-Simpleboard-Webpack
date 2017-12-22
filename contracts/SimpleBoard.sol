@@ -1,6 +1,6 @@
 pragma solidity 0.4.18;
 
-contract Simpleboard {
+contract SimpleBoard {
     struct Topic {
         address owner;
         string title;
