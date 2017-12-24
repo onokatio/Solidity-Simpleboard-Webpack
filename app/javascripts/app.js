@@ -5,12 +5,13 @@ window.addEventListener('load', function() {
   // Checking if Web3 has been injected by the browser (Mist/MetaMask)
   if (typeof window.web3 !== 'undefined') {
     // Use Mist/MetaMask's provider
-    window.web3 = new Web3(web3.currentProvider);
+    //window.web3 = new Web3(web3.currentProvider);
   } else {
     console.log('No web3? You should consider trying MetaMask!')
     // fallback - use your fallback strategy (local node / hosted node + in-dapp id mgmt / fail)
-    window.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+    //window.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
   }
+	window.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
 
   // Now you can start your app & access web3 freely:
   startApp()
@@ -25,13 +26,25 @@ function startApp(){
 	//var balance = window.web3.eth.getBalance(coinbase);
 
 	//console.log(balance.plus(21).toString(10));
-  web3.eth.defaultAccount = web3.eth.accounts[0];
-  const SimpleBoard = web3.eth.contract(SimpleBoardABI);
-  const instance = SimpleBoard.at('0x1e4e20200764b6e13f53a03beea43785ef0d47f2');
-  instance._eth.defaultAccount = instance._eth.accounts[0];
+  web3.eth.defaultAccount = web3.eth.coinbase;
+  //const SimpleBoard = web3.eth.contract(SimpleBoardABI);
+	const SimpleBoard = web3.eth.contract([{"constant":true,"inputs":[],"name":"getResponsesAmount","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"resNum","type":"uint8"}],"name":"getResponseOwner","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"resNum","type":"uint8"}],"name":"getResponseStr","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"str","type":"string"}],"name":"postRes","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"}]);
+  //const instance = SimpleBoard.at('0x7f4efae3edcc01091ab8aab42bbd0d5ae77fb8ee');
+	const address = '0x7504bdda48ebec8fc9fb50a22ba867047464795e';
+  const instance = SimpleBoard.at(address);
+
+  //instance._eth.defaultAccount = instance._eth.accounts[0];
   //var result = instance.getResponsesAmount();
-  console.log(instance);
-  console.log(window.web3.version);
-  console.log(instance.address);
-  console.log(instance.getResponsesAmount());
+  var ResponsesAmount = instance.getResponsesAmount().toNumber();
+
+  console.log("Web3 version: " + window.web3.version.api);
+  console.log("Contract Address: " + instance.address);
+  console.log("ResponsesAmount: " + ResponsesAmount.s);
+  console.log(ResponsesAmount);
+
+	for(var i = 0; i < ResponsesAmount; i++ ){
+		console.log("============================================================");
+		console.log((i+1) + ":" + instance.getResponseOwner(i));
+		console.log(instance.getResponseStr(i));
+	}
 }
