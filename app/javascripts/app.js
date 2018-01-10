@@ -30,7 +30,7 @@ function startApp(){
   //const SimpleBoard = web3.eth.contract(SimpleBoardABI);
 	const SimpleBoard = web3.eth.contract([{"constant":true,"inputs":[],"name":"getResponsesAmount","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"resNum","type":"uint8"}],"name":"getResponseOwner","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"resNum","type":"uint8"}],"name":"getResponseStr","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"str","type":"string"}],"name":"postRes","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"}]);
   //const instance = SimpleBoard.at('0x7f4efae3edcc01091ab8aab42bbd0d5ae77fb8ee');
-	const address = '0x7b9fe61f0a8f33a63e59995319449de419d5c143';
+	const address = '0x09a8f89b2a77d051a58a7486cf7635242f4d23f2';
   const instance = SimpleBoard.at(address);
 
   //instance._eth.defaultAccount = instance._eth.accounts[0];

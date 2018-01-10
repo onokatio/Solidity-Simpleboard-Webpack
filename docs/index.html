@@ -1,0 +1,34 @@
+<html>
+	<head>
+		<script src="./SimpleBoard.js"></script>
+		<script src="./app.js"></script>
+	</head>
+	<body>
+		※このアプリケーションはインターフェースがありません。ブラウザのコンソールを起動して操作してください。<br>
+		
+	<br>
+	現在、コントラクトの動作は完璧になっています。コントラクトは、jsのwindow.instance変数に格納されています。
+	<br>
+	Ethereumネットワークに接続するために、拡張機能であるMetaMaskをブラウザにインストールしてください。
+		<br>
+
+		<br>
+起動手順
+	<br>
+	1. このリポジトリをクローンしたディレクトリに移動。
+	<br>
+	2. npm install
+	<br>
+	3. npm -g install truffle
+	<br>
+	4. npm -g install ganache-cli
+	<br>
+	5. ganache-cli（ここでプロンプトは戻ってこないので新しくターミナルを起動してください。）
+	<br>
+	6. truffle migrate
+	<br>
+	7. このページのブラウザコンソールを開き、window.instance.メソッド名　を叩くことで、ブロックチェーンにデータのコミット・リードが行えます。
+	<br>
+	8. また、ブラウザをリロードすると、ブラウザコンソール内にアスキーアートで掲示板を表示します。
+	</body>
+</html>
