@@ -1,5 +1,8 @@
-const path = require('path');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
+const path = require('path')
+const webpack = require('webpack')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 module.exports = {
   entry: './app/javascripts/app.js',
@@ -10,8 +13,16 @@ module.exports = {
   plugins: [
     // Copy our app's index.html to the build folder.
     new CopyWebpackPlugin([
-      { from: './app/index.html', to: "index.html" }
-    ])
+      { from: './app/index.html', to: 'index.html' }
+    ]),
+    new UglifyJsPlugin({
+      uglifyOptions: { ecma: 6 },
+      cache: true,
+      parallel: 4
+    }),
+    new webpack.optimize.AggressiveMergingPlugin(),
+    new webpack.optimize.OccurrenceOrderPlugin()
+    // new webpack.optimize.UglifyJsPlugin({ uglifyOptions: { ecma: 6 } })
   ],
   module: {
     rules: [
