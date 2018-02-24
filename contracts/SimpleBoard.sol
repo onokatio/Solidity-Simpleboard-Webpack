@@ -12,9 +12,11 @@ contract SimpleBoard {
     // address[100] owner;
     // string[100] str;
 		Response[] responses;
+		// address[] ResponseOwner;
+		// string[] ResponseStr;
     
     function postRes(string poststr) payable external {
-        if (responses.length > 100) return;
+        // if (responses.length > 100) return;
 
         Response memory temp;
 				temp.owner = msg.sender;
@@ -24,6 +26,10 @@ contract SimpleBoard {
         // str[str.length] = poststr;
         
         responses.push(temp);
+        // ResponseOwner.push(msg.sender);
+        // ResponseStr.push(poststr);
+        // responses[responses.length].owner = msg.sender;
+        // responses[responses.length].str = poststr;
         // responses[responses.length] = temp;
     }
     function getResponsesAmount() public constant returns(uint){
