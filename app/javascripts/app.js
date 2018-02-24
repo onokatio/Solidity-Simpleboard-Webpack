@@ -12,7 +12,8 @@ window.addEventListener('load', function () {
 
   console.log('Web3 version: ' + web3.version)
 
-  // web3.eth.defaultAccount = window.web3.eth.coinbase
+  web3.eth.defaultAccount = window.web3.eth.defaultAccount
+  // web3.personal.unlockAccount(web3.eth.defaultAccount)
   // web3.eth.coinbase = window.web3.eth.coinbase
   // window.myweb3 = web3
   startApp(web3)
@@ -28,21 +29,39 @@ function startApp (web3) {
   window.json = json
   var SimpleBoard = contract(json)
   SimpleBoard.setProvider(web3.currentProvider)
-  SimpleBoard.defaults(web3.eth.accounts[0])
+  // SimpleBoard.defaults(web3.eth.accounts[0])
   window.SimpleBoard = SimpleBoard
   var board
+  var amount
   // var boardPromise = SimpleBoard.deployed()
   // boardPromise.then(function (instance) {
 
+  document.getElementById('post').onclick = function () {
+    SimpleBoard.deployed().then(function (instance) {
+      var content = document.getElementById('content')
+      if (content.value === '') return
+      return instance.postRes(content.value, { from: window.web3.eth.defaultAccount })
+      // return instance.postRes('hello world')
+    })
+  }
   SimpleBoard.deployed().then(function (instance) {
     board = instance
     return board.getResponsesAmount()
   }).then(function (responsesAmount) {
     console.log('response amount: ' + responsesAmount)
-    // return board.getAllResponses()
-  }).then(function (allRes) {
-    window.allRes = allRes
+    var inc = new Array(responsesAmount)
+    for (var i = 0; i < responsesAmount; i++) {
+      inc[i] = i
+    }
+    var resloop = inc.map(index => board.getResponseStr(index))
+    Promise.all(resloop).then(function (str) {
+      for (var i = 0; i < responsesAmount; i++) {
+        console.log((i + 1) + ' : ' + str[i])
+        document.getElementById('res').innerHTML += (i + 1) + ' : ' + str[i] + '<br>'
+      }
+    })
   })
+
   // var instance = web3.eth.contract(json.abi)
   // board = instance.at(json.address)
   // window.board = board
@@ -69,9 +88,4 @@ function startApp (web3) {
   // instance._eth.defaultAccount = instance._eth.accounts[0];
   // var result = instance.getResponsesAmount();
   // var ResponsesAmount = board.getResponsesAmount().toNumber()
-}
-window.send = function () {
-  window.SimpleBoard.deployed().then(function (instance) {
-    return instance.postRes('hello world', { from: window.web3.eth.coinbase })
-  })
 }
